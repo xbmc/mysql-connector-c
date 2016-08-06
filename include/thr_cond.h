@@ -47,11 +47,22 @@ typedef pthread_cond_t native_cond_t;
 static DWORD get_milliseconds(const struct timespec *abstime)
 {
   long long millis;
-  union ft64 now;
 
   if (abstime == NULL)
    return INFINITE;
 
+#if _MSC_VER >= 1900
+  struct timespec currenttime;
+  set_timespec_nsec(&currenttime, 0);
+  ulonglong wait = diff_timespec(&currenttime, (struct timespec*)abstime);
+  if (wait <= 0 )
+    return 0;
+
+
+  millis = wait / 1000000L;
+  
+#else
+  union ft64 now;
   GetSystemTimeAsFileTime(&now.ft);
 
   /*
@@ -71,7 +82,7 @@ static DWORD get_milliseconds(const struct timespec *abstime)
   */
   if (millis > abstime->max_timeout_msec)
     millis= abstime->max_timeout_msec;
-
+#endif
   if (millis > UINT_MAX)
     millis= UINT_MAX;
 

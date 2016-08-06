@@ -44,8 +44,8 @@ my_bool init_tmpdir(MY_TMPDIR *tmpdir, const char *pathlist)
     if (!pathlist)
       pathlist=getenv("TMP");
 #endif
-    if (!pathlist || !pathlist[0])
-      pathlist= DEFAULT_TMPDIR;
+    //if (!pathlist || !pathlist[0])
+      //pathlist= DEFAULT_TMPDIR;
   }
   do
   {
