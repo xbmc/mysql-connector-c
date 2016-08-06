@@ -432,6 +432,14 @@ ENDIF()
 # Run platform tests
 INCLUDE(configure.cmake)
 
+include(CMakePackageConfigHelpers)
+SET(VERSION_FILE ${CMAKE_CURRENT_BINARY_DIR}/libmysql-config-version.cmake)
+write_basic_package_version_file(
+  ${VERSION_FILE}
+  VERSION ${VERSION}
+  COMPATIBILITY AnyNewerVersion
+)
+
 # Common defines and includes
 ADD_DEFINITIONS(-DHAVE_CONFIG_H)
 INCLUDE_DIRECTORIES(

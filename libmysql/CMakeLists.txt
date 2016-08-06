@@ -294,6 +294,7 @@ IF(NOT DISABLE_SHARED)
     #(mysqlclient in this case)
     SET_TARGET_PROPERTIES(mysqlclient PROPERTIES CLEAN_DIRECT_OUTPUT 1)
     SET_TARGET_PROPERTIES(libmysql PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+    target_include_directories(libmysql INTERFACE $<INSTALL_INTERFACE:include/>)
 
     # Install links to libmysqlclient.so (client_r)
     GET_VERSIONED_LIBNAME(

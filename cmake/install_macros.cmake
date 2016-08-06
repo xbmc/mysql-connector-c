@@ -222,7 +222,6 @@ FUNCTION(MYSQL_INSTALL_TARGETS)
   IF(NOT ARG_DESTINATION)
      MESSAGE(FATAL_ERROR "Need DESTINATION parameter for MYSQL_INSTALL_TARGETS")
   ENDIF()
-
  
   FOREACH(target ${TARGETS})
     # If signing is required, sign executables before installing
@@ -238,8 +237,23 @@ FUNCTION(MYSQL_INSTALL_TARGETS)
   IF(ARG_COMPONENT)
     SET(COMP COMPONENT ${ARG_COMPONENT})
   ENDIF()
-  INSTALL(TARGETS ${TARGETS} DESTINATION ${ARG_DESTINATION} ${COMP})
-  # Connector/C packages should not install any debug files
+  INSTALL(TARGETS ${TARGETS} EXPORT ${TARGETS} DESTINATION ${ARG_DESTINATION} ${COMP})
+  install(EXPORT libmysql
+      FILE
+        libmysql.cmake
+      NAMESPACE
+        libmysql::
+      DESTINATION
+        lib/cmake/libmysql
+        )
+    install(
+      FILES
+        ${CMAKE_SOURCE_DIR}/cmake/libmysql-config.cmake
+        ${VERSION_FILE}
+      DESTINATION
+        lib/cmake/libmysql
+    )
+    # Connector/C packages should not install any debug files
   #SET(INSTALL_LOCATION ${ARG_DESTINATION} )
   #INSTALL_DEBUG_SYMBOLS("${TARGETS}")
   SET(INSTALL_LOCATION)

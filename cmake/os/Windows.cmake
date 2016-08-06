@@ -94,7 +94,7 @@ IF(MSVC)
    CMAKE_C_FLAGS_DEBUG      CMAKE_C_FLAGS_DEBUG_INIT 
    CMAKE_CXX_FLAGS_RELEASE  CMAKE_CXX_FLAGS_RELWITHDEBINFO
    CMAKE_CXX_FLAGS_DEBUG    CMAKE_CXX_FLAGS_DEBUG_INIT)
-   STRING(REPLACE "/MD"  "/MT" "${flag}" "${${flag}}")
+  #  STRING(REPLACE "/MD"  "/MT" "${flag}" "${${flag}}")
    STRING(REPLACE "/Zi"  "/Z7" "${flag}" "${${flag}}")
    SET("${flag}" "${${flag}} /EHsc")
   ENDFOREACH()
