@@ -87,7 +87,7 @@ IF(MSVC)
   #     information includes the names and types of variables, as well as
   #     functions and line numbers. No .pdb file is produced by the compiler.
   FOREACH(lang C CXX)
-    SET(CMAKE_${lang}_FLAGS_RELEASE "${CMAKE_${lang}_FLAGS_RELEASE} /Z7")
+    # SET(CMAKE_${lang}_FLAGS_RELEASE "${CMAKE_${lang}_FLAGS_RELEASE} /Z7")
   ENDFOREACH()
   FOREACH(flag 
    CMAKE_C_FLAGS_RELEASE    CMAKE_C_FLAGS_RELWITHDEBINFO 
@@ -95,7 +95,7 @@ IF(MSVC)
    CMAKE_CXX_FLAGS_RELEASE  CMAKE_CXX_FLAGS_RELWITHDEBINFO
    CMAKE_CXX_FLAGS_DEBUG    CMAKE_CXX_FLAGS_DEBUG_INIT)
   #  STRING(REPLACE "/MD"  "/MT" "${flag}" "${${flag}}")
-   STRING(REPLACE "/Zi"  "/Z7" "${flag}" "${${flag}}")
+  #  STRING(REPLACE "/Zi"  "/Z7" "${flag}" "${${flag}}")
    SET("${flag}" "${${flag}} /EHsc")
   ENDFOREACH()
   

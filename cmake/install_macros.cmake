@@ -237,7 +237,19 @@ FUNCTION(MYSQL_INSTALL_TARGETS)
   IF(ARG_COMPONENT)
     SET(COMP COMPONENT ${ARG_COMPONENT})
   ENDIF()
-  INSTALL(TARGETS ${TARGETS} EXPORT ${TARGETS} DESTINATION ${ARG_DESTINATION} ${COMP})
+  foreach(target ${TARGETS})
+    target_include_directories(${target}
+      INTERFACE
+      $<INSTALL_INTERFACE:include>
+      $<INSTALL_INTERFACE:include/mysql>
+    )
+  endforeach()
+  INSTALL(TARGETS ${TARGETS} EXPORT ${TARGETS}
+    RUNTIME DESTINATION bin
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    ${COMP}
+  )
   install(EXPORT libmysql
       FILE
         libmysql.cmake
@@ -253,6 +265,12 @@ FUNCTION(MYSQL_INSTALL_TARGETS)
       DESTINATION
         lib/cmake/libmysql
     )
+    if(MSVC)
+      install(FILES
+        $<TARGET_PDB_FILE:libmysql>
+        DESTINATION lib
+      )
+    endif()
     # Connector/C packages should not install any debug files
   #SET(INSTALL_LOCATION ${ARG_DESTINATION} )
   #INSTALL_DEBUG_SYMBOLS("${TARGETS}")
